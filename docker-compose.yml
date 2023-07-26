@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  todo:
+    build: 
+      context: .
+      dockerfile: dockerfile.todo-service
+    volumes:
+      - .:/usr/src/app:rw
+    ports:
+      - 8081:8080
+  auth:
+    build: 
+      context: .
+      dockerfile: dockerfile.auth-service
+    volumes:
+      - .:/usr/src/app:rw
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
