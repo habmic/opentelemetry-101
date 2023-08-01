@@ -1,9 +1,12 @@
+import start from './tracer';
+start('todo-service');
 import express from 'express';
 import axios from 'axios';
 const app = express();
 
 import Redis from "ioredis";
 const redis = new Redis({host:'redis'});
+
 
 
 app.get('/todos', async (req, res) => {
