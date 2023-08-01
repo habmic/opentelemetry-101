@@ -1,5 +1,5 @@
 import start from './tracer';
-start('todo-service');
+const meter = start('todo-service');
 import express from 'express';
 import axios from 'axios';
 const app = express();
@@ -7,6 +7,22 @@ const app = express();
 import Redis from "ioredis";
 const redis = new Redis({host:'redis'});
 
+const calls = meter.createHistogram('http-calls');
+
+app.use((req,res,next)=>{
+    const startTime = Date.now();
+    req.on('end',()=>{
+        const endTime = Date.now();
+        calls.record(endTime-startTime,{
+            route: req.route?.path,
+            status: res.statusCode,
+            method: req.method
+        })
+    })
+    next();
+})
+
+const sleep = (time:number)=>{return new Promise((resolve)=>{setTimeout(resolve,time)})};
 
 
 app.get('/todos', async (req, res) => {
@@ -18,6 +34,15 @@ app.get('/todos', async (req, res) => {
         if (todoItem) {
             todos.push(JSON.parse(todoItem));
         }
+    }
+
+    if(req.query['slow']){
+        await sleep(1000);
+    }
+
+    if(req.query['fail']){
+        console.error('Really bad error!');
+        res.sendStatus(500);
     }
 
     res.json({ todos, user:user.data });

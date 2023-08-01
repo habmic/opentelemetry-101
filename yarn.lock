@@ -206,6 +206,15 @@
     "@opentelemetry/semantic-conventions" "1.15.1"
     jaeger-client "^3.15.0"
 
+"@opentelemetry/exporter-prometheus@^0.41.1":
+  version "0.41.1"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/exporter-prometheus/-/exporter-prometheus-0.41.1.tgz#1721c918908f71cdfc5174bb8d2fa0b59eb760e9"
+  integrity sha512-6XpRLbzZ0AWmECSa3mpHcN7E5ilfUf2dbBB0VhdnNvTycBnLNMbFFJ06lVVLFLg8BgnxH+S30KaPP8Jng979pA==
+  dependencies:
+    "@opentelemetry/core" "1.15.1"
+    "@opentelemetry/resources" "1.15.1"
+    "@opentelemetry/sdk-metrics" "1.15.1"
+
 "@opentelemetry/exporter-trace-otlp-grpc@0.41.1":
   version "0.41.1"
   resolved "https://registry.yarnpkg.com/@opentelemetry/exporter-trace-otlp-grpc/-/exporter-trace-otlp-grpc-0.41.1.tgz#c4e8fdf5c0083f3308554d6ba4b72768b579c69e"
@@ -743,7 +752,7 @@
     "@opentelemetry/core" "1.15.1"
     "@opentelemetry/resources" "1.15.1"
 
-"@opentelemetry/sdk-metrics@1.15.1", "@opentelemetry/sdk-metrics@^1.9.1":
+"@opentelemetry/sdk-metrics@1.15.1", "@opentelemetry/sdk-metrics@^1.15.1", "@opentelemetry/sdk-metrics@^1.9.1":
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/@opentelemetry/sdk-metrics/-/sdk-metrics-1.15.1.tgz#e0d2844191ecd7fce3fccf18ae50ed35389f0885"
   integrity sha512-ojcrzexOQfto83NvKfIvsJap4SHH3ZvLjsDGhQ04AfvWWGR7mPcqLSlLedoSkEdIe0k1H6uBEsHBtIprkMpTHA==
