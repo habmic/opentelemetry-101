@@ -14,6 +14,7 @@ To navigate between the different phases of the course I have used git tags. Bel
 | 1  | Before we install OpenTelemetry  |
 | 2  | Basic OpenTelemetry installation  |
 | 3  | Adding Metrics  |
+| 4  | Correlating logs with traces  |
 
 ## How to use this repo
 

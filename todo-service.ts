@@ -5,15 +5,16 @@ import axios from 'axios';
 const app = express();
 
 import Redis from "ioredis";
-const redis = new Redis({host:'redis'});
+import { api } from '@opentelemetry/sdk-node';
+const redis = new Redis({ host: 'redis' });
 
 const calls = meter.createHistogram('http-calls');
 
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     const startTime = Date.now();
-    req.on('end',()=>{
+    req.on('end', () => {
         const endTime = Date.now();
-        calls.record(endTime-startTime,{
+        calls.record(endTime - startTime, {
             route: req.route?.path,
             status: res.statusCode,
             method: req.method
@@ -22,7 +23,7 @@ app.use((req,res,next)=>{
     next();
 })
 
-const sleep = (time:number)=>{return new Promise((resolve)=>{setTimeout(resolve,time)})};
+const sleep = (time: number) => { return new Promise((resolve) => { setTimeout(resolve, time) }) };
 
 
 app.get('/todos', async (req, res) => {
@@ -36,16 +37,27 @@ app.get('/todos', async (req, res) => {
         }
     }
 
-    if(req.query['slow']){
+    if (req.query['slow']) {
         await sleep(1000);
     }
 
-    if(req.query['fail']){
-        console.error('Really bad error!');
-        res.sendStatus(500);
+    if (req.query['fail']) {
+        try {
+            throw new Error('Really bad error!')
+        } catch (e: any) {
+            const activeSpan = api.trace.getSpan(api.context.active());
+            activeSpan?.recordException(e)
+            console.error('Really bad error!', {
+                spanId: activeSpan?.spanContext().spanId,
+                traceId: activeSpan?.spanContext().traceId,
+                traceFlag: activeSpan?.spanContext().traceFlags,
+            });
+            res.sendStatus(500);
+            return;
+        }
     }
 
-    res.json({ todos, user:user.data });
+    res.json({ todos, user: user.data });
 })
 
 app.listen(8080, () => {
