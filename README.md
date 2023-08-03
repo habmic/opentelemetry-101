@@ -17,6 +17,7 @@ To navigate between the different phases of the course I have used git tags. Bel
 | 4  | Correlating logs with traces  |
 | 5  | Creating manual spans  |
 | 6  | Adding custom attributes  |
+| 7  | Debug logs  |
 
 ## How to use this repo
 
