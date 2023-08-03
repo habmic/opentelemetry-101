@@ -29,7 +29,12 @@ function start(serviceName: string) {
     const sdk = new NodeSDK({
         traceExporter,
         serviceName: serviceName,
-        instrumentations: [getNodeAutoInstrumentations()]
+        instrumentations: [getNodeAutoInstrumentations({
+            "@opentelemetry/instrumentation-fs":{
+                enabled:false
+            }
+        })],
+        
     });
 
 
