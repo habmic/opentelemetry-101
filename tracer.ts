@@ -34,7 +34,11 @@ function start(serviceName: string) {
                 enabled:false
             }
         })],
-        
+        autoDetectResources:true,
+        resource: new Resource({
+            'team.owner':'core-team',
+            'deployment':'4'
+        })
     });
 
 
