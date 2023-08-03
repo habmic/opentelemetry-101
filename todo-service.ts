@@ -2,6 +2,7 @@ import start from './tracer';
 const meter = start('todo-service');
 import express from 'express';
 import axios from 'axios';
+import opentelemetry from "@opentelemetry/api";
 const app = express();
 
 import Redis from "ioredis";
@@ -66,11 +67,15 @@ app.listen(8080, () => {
 
 
 async function init() {
-    await Promise.all([
-        redis.set('todo:1', JSON.stringify({ name: 'Install OpenTelemetry SDK' })),
-        redis.set('todo:2', JSON.stringify({ name: 'Deploy OpenTelemetry Collector' })),
-        redis.set('todo:3', JSON.stringify({ name: 'Configure sampling rule' })),
-        redis.set('todo:4', JSON.stringify({ name: 'You are OpenTelemetry master!' }))]
-    );
+    opentelemetry.trace.getTracer('init').startActiveSpan('Set default items', async (span) => {
+        await Promise.all([
+            redis.set('todo:1', JSON.stringify({ name: 'Install OpenTelemetry SDK' })),
+            redis.set('todo:2', JSON.stringify({ name: 'Deploy OpenTelemetry Collector' })),
+            redis.set('todo:3', JSON.stringify({ name: 'Configure sampling rule' })),
+            redis.set('todo:4', JSON.stringify({ name: 'You are OpenTelemetry master!' }))]
+        );
+        span.end();
+    })
+
 }
 init();
