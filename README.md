@@ -19,6 +19,7 @@ To navigate between the different phases of the course I have used git tags. Bel
 | 6  | Adding custom attributes  |
 | 7  | Debug logs  |
 | 8  | Define custom resources  |
+| 9  | Configure custom sampler  |
 
 ## How to use this repo
 

@@ -5,6 +5,8 @@ import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 import { MeterProvider } from '@opentelemetry/sdk-metrics';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { ParentBasedSampler, TraceIdRatioBasedSampler } from '@opentelemetry/sdk-trace-base'
+import { OurSampler } from './ourSampler';
 
 function start(serviceName: string) {
 
@@ -38,7 +40,11 @@ function start(serviceName: string) {
         resource: new Resource({
             'team.owner':'core-team',
             'deployment':'4'
+        }),
+        sampler: new ParentBasedSampler({
+            root: new OurSampler()
         })
+
     });
 
 
