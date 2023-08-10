@@ -28,37 +28,46 @@ const sleep = (time: number) => { return new Promise((resolve) => { setTimeout(r
 
 
 app.get('/todos', async (req, res) => {
-    const user = await axios.get('http://auth:8080/auth');
-    const todoKeys = await redis.keys('todo:*');
-    const todos: any = [];
-    for (let i = 0; i < todoKeys.length; i++) {
-        const todoItem = await redis.get(todoKeys[i])
-        if (todoItem) {
-            todos.push(JSON.parse(todoItem));
+    const baggage = opentelemetry.propagation.createBaggage({
+        "user.plan": {
+            value: "enterprise"
         }
-    }
-
-    if (req.query['slow']) {
-        await sleep(1000);
-    }
-
-    if (req.query['fail']) {
-        try {
-            throw new Error('Really bad error!')
-        } catch (e: any) {
-            const activeSpan = api.trace.getSpan(api.context.active());
-            activeSpan?.recordException(e)
-            console.error('Really bad error!', {
-                spanId: activeSpan?.spanContext().spanId,
-                traceId: activeSpan?.spanContext().traceId,
-                traceFlag: activeSpan?.spanContext().traceFlags,
-            });
-            res.sendStatus(500);
-            return;
+    })
+    const contextWithBaggage = opentelemetry.propagation.setBaggage(opentelemetry.context.active(), baggage);
+    opentelemetry.context.with(contextWithBaggage, async () => {
+        const user = await axios.get('http://auth:8080/auth');
+        const todoKeys = await redis.keys('todo:*');
+        const todos: any = [];
+        for (let i = 0; i < todoKeys.length; i++) {
+            const todoItem = await redis.get(todoKeys[i])
+            if (todoItem) {
+                todos.push(JSON.parse(todoItem));
+            }
         }
-    }
 
-    res.json({ todos, user: user.data });
+        if (req.query['slow']) {
+            await sleep(1000);
+        }
+
+        if (req.query['fail']) {
+            try {
+                throw new Error('Really bad error!')
+            } catch (e: any) {
+                const activeSpan = api.trace.getSpan(api.context.active());
+                activeSpan?.recordException(e)
+                console.error('Really bad error!', {
+                    spanId: activeSpan?.spanContext().spanId,
+                    traceId: activeSpan?.spanContext().traceId,
+                    traceFlag: activeSpan?.spanContext().traceFlags,
+                });
+                res.sendStatus(500);
+                return;
+            }
+        }
+
+        res.json({ todos, user: user.data });
+    })
+
 })
 
 app.listen(8080, () => {

@@ -7,6 +7,7 @@ import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { ParentBasedSampler, TraceIdRatioBasedSampler } from '@opentelemetry/sdk-trace-base'
 import { OurSampler } from './ourSampler';
+import {W3CBaggagePropagator, W3CTraceContextPropagator, CompositePropagator} from '@opentelemetry/core'
 
 function start(serviceName: string) {
 
@@ -34,6 +35,16 @@ function start(serviceName: string) {
         instrumentations: [getNodeAutoInstrumentations({
             "@opentelemetry/instrumentation-fs":{
                 enabled:false
+            },
+            "@opentelemetry/instrumentation-http":{
+                headersToSpanAttributes:{
+                    client:{
+                        requestHeaders:['tracestate','traceparent','baggage']
+                    },
+                    server:{
+                        requestHeaders:['tracestate','traceparent','baggage']
+                    }
+                }
             }
         })],
         autoDetectResources:true,
@@ -43,10 +54,12 @@ function start(serviceName: string) {
         }),
         sampler: new ParentBasedSampler({
             root: new OurSampler()
+        }),
+        textMapPropagator: new CompositePropagator({
+            propagators:[new W3CTraceContextPropagator(), new W3CBaggagePropagator()]
         })
 
     });
-
 
     sdk.start();
 

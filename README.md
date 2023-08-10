@@ -20,6 +20,7 @@ To navigate between the different phases of the course I have used git tags. Bel
 | 7  | Debug logs  |
 | 8  | Define custom resources  |
 | 9  | Configure custom sampler  |
+| 10  | Using context propagation to set baggage  |
 
 ## How to use this repo
 
@@ -39,7 +40,6 @@ git checkout 1
 ```
 docker-compose up
 ```
-
 
 
 >The best way to learn is by experimenting and modifying the code. Try tweaking the code to understand how different configurations and scenarios affect the telemetry data.
