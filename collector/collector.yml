@@ -1,0 +1,35 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    send_timestamps: true
+    namespace: otel
+    const_labels:
+      via: collector
+  jaeger:
+    endpoint: jaeger:14250
+    tls:
+      insecure: true
+
+extensions:
+  health_check:
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: []
+      exporters: [jaeger]
+    metrics:
+      receivers: [otlp]
+      processors: []
+      exporters: [prometheus]

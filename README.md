@@ -21,6 +21,7 @@ To navigate between the different phases of the course I have used git tags. Bel
 | 8  | Define custom resources  |
 | 9  | Configure custom sampler  |
 | 10  | Using context propagation to set baggage  |
+| 11  | Using the OpenTelemetry Collector  |
 
 ## How to use this repo
 

@@ -28,8 +28,8 @@ services:
   jaeger:
     image: jaegertracing/all-in-one
     ports:
-        - 4318
         - 16686:16686
+        - 14250:14250
     environment:
         COLLECTOR_OTLP_ENABLED: true
   prometheus:
@@ -40,3 +40,15 @@ services:
         - ./prometheus/:/etc/prometheus/
       ports:
         - 9090:9090
+  collector:
+    image: otel/opentelemetry-collector-contrib
+    volumes: 
+      - ./collector/collector.yml:/etc/otel-collector-config.yaml
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    ports:
+      - "8889:8889"
+      - "4317:4317"
+      - "4318:4318"
+    depends_on:
+      - jaeger
+      - prometheus

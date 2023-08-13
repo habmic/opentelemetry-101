@@ -6,4 +6,4 @@ scrape_configs:
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
     static_configs:
-    - targets: ['todo:9464','auth:9464']
+    - targets: ['collector:8889']
