@@ -7,6 +7,27 @@ receivers:
         endpoint: 0.0.0.0:4317
 
 processors:
+  batch:
+  resource:
+    attributes:
+    - key: key.test
+      value: "via-collector"
+      action: insert
+  tail_sampling:
+    decision_wait: 10s
+    policies:
+      [
+          {
+            name: high-latency,
+            type: latency,
+            latency: {threshold_ms: 500}
+          },
+          {
+            name: http_error_only,
+            type: numeric_attribute,
+            numeric_attribute: {key: http.status_code, min_value: 500, max_value: 599}
+          }
+      ]
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
@@ -27,9 +48,9 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: []
+      processors: [tail_sampling, batch, resource]
       exporters: [jaeger]
     metrics:
       receivers: [otlp]
-      processors: []
+      processors: [batch]
       exporters: [prometheus]

@@ -22,6 +22,7 @@ To navigate between the different phases of the course I have used git tags. Bel
 | 9  | Configure custom sampler  |
 | 10  | Using context propagation to set baggage  |
 | 11  | Using the OpenTelemetry Collector  |
+| 12  | Setting up tail sampling  |
 
 ## How to use this repo
 
