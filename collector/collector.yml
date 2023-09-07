@@ -39,6 +39,8 @@ exporters:
     endpoint: jaeger:14250
     tls:
       insecure: true
+  logging:
+    verbosity: detailed    
 
 extensions:
   health_check:
@@ -49,7 +51,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [tail_sampling, batch, resource]
-      exporters: [jaeger]
+      exporters: [jaeger, logging]
     metrics:
       receivers: [otlp]
       processors: [batch]

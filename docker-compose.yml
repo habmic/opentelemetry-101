@@ -46,6 +46,7 @@ services:
       - ./collector/collector.yml:/etc/otel-collector-config.yaml
     command: ["--config=/etc/otel-collector-config.yaml"]
     ports:
+      - "8888:8888"
       - "8889:8889"
       - "4317:4317"
       - "4318:4318"
