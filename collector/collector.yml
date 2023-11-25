@@ -48,7 +48,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [tail_sampling, batch, resource]
+      processors: [batch, resource]
       exporters: [jaeger]
     metrics:
       receivers: [otlp]
