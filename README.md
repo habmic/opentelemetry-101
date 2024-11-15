@@ -5,7 +5,7 @@ Welcome to the Observability in Cloud Native apps using OpenTelemetry
 
 
 ## Following the course code examples
-This course is build an a way that we start with a simple application and every section of the course we will add more functionally of OpenTelemetry. 
+This course is built in such a way that we start with a simple application, and with every section of the course, we add more functionally to OpenTelemetry. 
 
 To navigate between the different phases of the course I have used git tags. Below is a table with all the available tags (after you have cloned the repo it is recommended to checkout the first tag)
 
