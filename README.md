@@ -9,20 +9,19 @@ This course is build an a way that we start with a simple application and every 
 
 To navigate between the different phases of the course I have used git tags. Below is a table with all the available tags (after you have cloned the repo it is recommended to checkout the first tag)
 
-| Tag name  | description |
-| ------------- | ------------- |
-| 1  | Before we install OpenTelemetry  |
-| 2  | Basic OpenTelemetry installation  |
-| 3  | Adding Metrics  |
-| 4  | Correlating logs with traces  |
-| 5  | Creating manual spans  |
-| 6  | Adding custom attributes  |
-| 7  | Debug logs  |
-| 8  | Define custom resources  |
-| 9  | Configure custom sampler  |
-| 10  | Using context propagation to set baggage  |
-| 11  | Using the OpenTelemetry Collector  |
-| 12  | Setting up tail sampling  |
+| Deprecated tag | New tag  | Description |
+| ------------- | ------------- | ------------- |
+| 1 | 1 | Before we install OpenTelemetry  |
+| 2 | 2 | Basic OpenTelemetry installation  |
+| 3 | 3 | Adding Metrics  |
+| 4 | 4 | Correlating logs with traces  |
+| 5 | 5 | Creating manual spans  |
+| 6 | 6 | Adding custom attributes  |
+| 7 | 7 | Debug logs  |
+| 8 | 8 | Define custom resources  |
+| 9 | 9 | Configure custom sampler  |
+| 10 | 10  | Using context propagation to set baggage  |
+| 11 | 11-v2 | Using the OpenTelemetry Collector  |
 
 ## How to use this repo
 

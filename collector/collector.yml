@@ -7,27 +7,6 @@ receivers:
         endpoint: 0.0.0.0:4317
 
 processors:
-  batch:
-  resource:
-    attributes:
-    - key: key.test
-      value: "via-collector"
-      action: insert
-  tail_sampling:
-    decision_wait: 10s
-    policies:
-      [
-          {
-            name: high-latency,
-            type: latency,
-            latency: {threshold_ms: 500}
-          },
-          {
-            name: http_error_only,
-            type: numeric_attribute,
-            numeric_attribute: {key: http.status_code, min_value: 500, max_value: 599}
-          }
-      ]
 exporters:
   prometheus:
     endpoint: "0.0.0.0:8889"
@@ -35,8 +14,8 @@ exporters:
     namespace: otel
     const_labels:
       via: collector
-  jaeger:
-    endpoint: jaeger:14250
+  otlp:
+    endpoint: jaeger:4317
     tls:
       insecure: true
 
@@ -48,9 +27,9 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch, resource]
-      exporters: [jaeger]
+      processors: []
+      exporters: [otlp]
     metrics:
       receivers: [otlp]
-      processors: [batch]
+      processors: []
       exporters: [prometheus]
