@@ -70,7 +70,7 @@ Change to `OTLPTraceExporter` URL to `http://collector:4318/v1/traces`
 ### Adjust The OpenTelemetry collector metrics
 Instead of using `exporter-prometheus` install
 ```
-yarn add exporter-metrics-otlp-proto
+yarn add @opentelemetry/exporter-metrics-otlp-proto
 ```
 
 Then replace `exporter-prometheus` with the following code:
