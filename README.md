@@ -39,9 +39,7 @@ git checkout 1
 ```
 
 3. **Running it with docker:** 
-```
-docker-compose up
-```
+First run `yarn install` and then `docker-compose up`
 
 
 >The best way to learn is by experimenting and modifying the code. Try tweaking the code to understand how different configurations and scenarios affect the telemetry data.
